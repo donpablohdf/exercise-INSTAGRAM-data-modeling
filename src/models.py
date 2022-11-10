@@ -148,10 +148,13 @@ class Favorites(Base):
 
     id = Column(Integer, primary_key=True)
     user_id = Column(Integer, ForeignKey('user.id'))
-    species = Column(ARRAY(String(500)), ForeignKey('species.id'))
     people = Column(ARRAY(String(500)), ForeignKey('people.id'))
     planets = Column(ARRAY(String(500)), ForeignKey('planets.id'))
-    rels = relationship(User, Species, People, Planets)
+    starships = Column(ARRAY(String(500)), ForeignKey('starships.id'))
+    vehicles = Column(ARRAY(String(500)), ForeignKey('vehicles.id'))
+    species = Column(ARRAY(String(500)), ForeignKey('species.id'))
+    films = Column(ARRAY(String(500)), ForeignKey('films.id'))
+    rels = relationship(User, People, Planets, Starships, Vehicles, Species, Films)
 
     def to_dict(self):
         return {}
