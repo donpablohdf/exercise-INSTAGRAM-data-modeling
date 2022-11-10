@@ -1,0 +1,27 @@
+{
+    "message": "ok",
+    "result": {
+        "properties": {
+            "model": "Digger Crawler",
+            "vehicle_class": "wheeled",
+            "manufacturer": "Corellia Mining Corporation",
+            "cost_in_credits": "150000",
+            "length": "36.8 ",
+            "crew": "46",
+            "passengers": "30",
+            "max_atmosphering_speed": "30",
+            "cargo_capacity": "50000",
+            "consumables": "2 months",
+            "films": [],
+            "pilots": [],
+            "created": "2020-09-17T17:46:31.415Z",
+            "edited": "2020-09-17T17:46:31.415Z",
+            "name": "Sand Crawler",
+            "url": "https://www.swapi.tech/api/vehicles/4"
+        },
+        "description": "A vehicle",
+        "_id": "5f63a160cf50d100047f97fc",
+        "uid": "4",
+        "__v": 0
+    }
+}
