@@ -46,7 +46,8 @@ class People(Base):
     birth_year = Column(String(250), nullable=True)
     gender = Column(String(250), nullable=True)
     name = Column(String(250), nullable=True)
-    homeworld = Column(Integer, ForeignKey('planets.id'))
+    # relacion uno a uno
+    homeworld = Column(Integer, ForeignKey('planets.id')) 
     rels = relationship(Planets)
 
 
@@ -64,8 +65,9 @@ class Species(Base):
     eye_colors = Column(String(250), nullable=True)
     language = Column(String(250), nullable=True)
     name = Column(String(250), nullable=True)
-    # peoples es un array con las ids de people, no sé hasta que punto se puede relacionar esto
+    # relacion uno a muchos
     peoples = Column(ARRAY(String(500)), ForeignKey('people.id'))
+    # relación uno a uno
     homeworld = Column(Integer, ForeignKey('planets.id'))
     rels = relationship(Planets, People)
 
