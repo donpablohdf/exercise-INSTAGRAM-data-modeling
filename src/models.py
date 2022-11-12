@@ -10,153 +10,52 @@ from sqlalchemy.orm import *
 
 Base = declarative_base()
 
-class Sections(Base):
-    __tablename__ = 'sections'
+class Follower(Base):
+    __tablename__ = 'follower'
 
     id = Column(Integer, primary_key=True)
-    sections = Column(ARRAY(String(500)), nullable=False)
-
-
-class Planets(Base):
-    __tablename__ = 'planets'
-
-    id = Column(Integer, primary_key=True)
-    description = Column(String(250), nullable=True)
-    diameter = Column(Integer, nullable=True)
-    rotation_period = Column(Integer, nullable=True)
-    orbital_period = Column(Integer, nullable=True)
-    gravity = Column(String(250), nullable=True)
-    population = Column(Integer, nullable=True)
-    climate = Column(String(250), nullable=True)
-    terrain = Column(String(250), nullable=True)
-    surface_water = Column(Integer, nullable=True)
-    name = Column(String(250), nullable=True)
-
-
-class People(Base):
-    __tablename__ = 'people'
-
-    id = Column(Integer, primary_key=True)
-    description = Column(String(250), nullable=True)
-    height = Column(Integer, nullable=True)
-    mass = Column(Integer, nullable=True)
-    hair_color = Column(String(250), nullable=True)
-    skin_color = Column(String(250), nullable=True)
-    eye_color = Column(String(250), nullable=True)
-    birth_year = Column(String(250), nullable=True)
-    gender = Column(String(250), nullable=True)
-    name = Column(String(250), nullable=True)
-    # relacion uno a uno
-    homeworld = Column(Integer, ForeignKey('planets.id')) 
-    rels = relationship(Planets)
-
-
-class Species(Base):
-    __tablename__ = 'species'
-
-    id = Column(Integer, primary_key=True)
-    description = Column(String(250), nullable=True)
-    classification = Column(String(250), nullable=True)
-    designation = Column(String(250), nullable=True)
-    average_height = Column(Integer, nullable=True)
-    average_lifespan = Column(Integer, nullable=True)
-    hair_colors = Column(String(250), nullable=True)
-    skin_colors = Column(String(250), nullable=True)
-    eye_colors = Column(String(250), nullable=True)
-    language = Column(String(250), nullable=True)
-    name = Column(String(250), nullable=True)
-    # relacion uno a muchos
-    peoples = Column(ARRAY(String(500)), ForeignKey('people.id'))
-    # relación uno a uno
-    homeworld = Column(Integer, ForeignKey('planets.id'))
-    rels = relationship(Planets, People)
-
-
-class Starships(Base):
-    __tablename__ = 'starships'
-
-    id = Column(Integer, primary_key=True)
-    description = Column(String(250), nullable=True)
-    model = Column(String(250), nullable=True)
-    starship_class = Column(String(250), nullable=True)
-    manufacturer = Column(String(250), nullable=True)
-    cost_in_credits = Column(Integer, nullable=True)
-    length = Column(Integer, nullable=True)
-    crew = Column(String(250), nullable=True)
-    passengers = Column(Integer, nullable=True)
-    max_atmosphering_speed = Column(Integer, nullable=True)
-    hyperdrive_rating = Column(String(250), nullable=True)
-    MGLT = Column(Integer, nullable=True)
-    cargo_capacity = Column(Integer, nullable=True)
-    consumables = Column(String(250), nullable=True)
-    pilots = Column(ARRAY(String(500)), ForeignKey('people.id'))
-    name = Column(String(250), nullable=True)
-    rels = relationship(People)
-
-
-class Vehicles(Base):
-    __tablename__ = 'vehicles'
-
-    id = Column(Integer, primary_key=True)
-    description = Column(String(250), nullable=True)
-    model = Column(String(250), nullable=True)
-    vehicle_class = Column(String(250), nullable=True)
-    manufacturer = Column(String(250), nullable=True)
-    cost_in_credits = Column(Integer, nullable=True)
-    length = Column(Integer, nullable=True)
-    crew = Column(String(250), nullable=True)
-    passengers = Column(Integer, nullable=True)
-    max_atmosphering_speed = Column(Integer, nullable=True)
-    cargo_capacity = Column(Integer, nullable=True)
-    consumables = Column(String(250), nullable=True)
-    films = Column(ARRAY(String(500)), ForeignKey('films.id'))
-    pilots = Column(ARRAY(String(500)), ForeignKey('people.id'))
-    name = Column(String(250), nullable=True)
-    rels = relationship(People, "Films")
+    user_from_id = Column(Integer, ForeignKey('user.id'))
+    user_to_id = Column(Integer,  ForeignKey('user.id'))
+    rels = relationship("User")
 
 
 class User(Base):
     __tablename__ = 'user'
 
-    id = Column(Integer, primary_key=True)
-    name = Column(String(250), nullable=False)
-    user = Column(String(250), nullable=False)
-    password = Column(String(250), nullable=False)
-    last_name = Column(String(250), nullable=True)
+    ID = Column(Integer, primary_key=True)
+    username = Column(String(250), nullable=False)
+    firstname = Column(String(250), nullable=False)
+    lastname = Column(String(250), nullable=True)
     email = Column(String(250), nullable=True)
 
-
-class Films(Base):
-    __tablename__ = 'films'
+class Comment(Base):
+    __tablename__ = 'comment'
 
     id = Column(Integer, primary_key=True)
-    description = Column(String(250), nullable=True)
-    producer = Column(String(250), nullable=True)
-    title = Column(String(250), nullable=True)
-    episode_id = Column(String(250), nullable=True)
-    director = Column(String(250), nullable=True)
-    opening_crawl = Column(String(1250), nullable=True)
-    # es people
-    characters = Column(ARRAY(String(500)), ForeignKey('people.id'))
-    planets = Column(ARRAY(String(500)), ForeignKey('planets.id'))
-    starships = Column(ARRAY(String(500)), ForeignKey('starships.id'))
-    vehicles = Column(ARRAY(String(500)), ForeignKey('vehicles.id'))
-    species = Column(ARRAY(String(500)), ForeignKey('species.id'))
-    rels = relationship(User, People, Planets, Starships, Vehicles, Species)
+    comment_text = Column(String(250), nullable=True)
+    author_id = Column(Integer, ForeignKey('user.id'))
+    post_id = Column(Integer, ForeignKey('post.id'))
+    rels = relationship(User, "Post")
 
 
-class Favorites(Base):
-    __tablename__ = 'favorites'
+class Post(Base):
+    __tablename__ = 'post'
 
     id = Column(Integer, primary_key=True)
     user_id = Column(Integer, ForeignKey('user.id'))
-    people = Column(ARRAY(String(500)), ForeignKey('people.id'))
-    planets = Column(ARRAY(String(500)), ForeignKey('planets.id'))
-    starships = Column(ARRAY(String(500)), ForeignKey('starships.id'))
-    vehicles = Column(ARRAY(String(500)), ForeignKey('vehicles.id'))
-    species = Column(ARRAY(String(500)), ForeignKey('species.id'))
-    films = Column(ARRAY(String(500)), ForeignKey('films.id'))
-    rels = relationship(User, People, Planets, Starships, Vehicles, Species, Films)
+    rels = relationship(User)
+
+class Media(Base):
+    __tablename__ = 'starships'
+
+    id = Column(Integer, primary_key=True)
+    type = Column(Enum, nullable=False)
+    url = Column(String(250), nullable=False)
+    post_id = Column(Integer, ForeignKey('post.id'))
+    rels = relationship(Post)
+
+
+
 
     def to_dict(self):
         return {}
